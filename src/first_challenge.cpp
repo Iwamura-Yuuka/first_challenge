@@ -48,7 +48,9 @@ bool FirstChallenge::is_goal()
 // 進んだ距離を計算
 double FirstChallenge::calc_distance()
 {
-    return hypot(odom_.pose.position.x, odom_.pose.position.y);
+    // optional型で定義したmsgの値を取得したい場合は.value()を変数名の直後に追記
+    // optional型のvalue()は有効値への参照を返す
+    return hypot(odom_.value().pose.pose.position.x, odom_.value().pose.pose.position.y);
 }
 
 // roombaの制御入力を決定

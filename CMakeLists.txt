@@ -9,6 +9,10 @@ ament_auto_find_build_dependencies()
 ament_auto_add_executable(${PROJECT_NAME}_node
   src/first_challenge.cpp
   src/first_challenge_node.cpp)
+target_include_directories(${PROJECT_NAME}_node
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
 # launchファイルをインストール（ament_package_indexが探せる場所に置く）
 install(DIRECTORY
   launch

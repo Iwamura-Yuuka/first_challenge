@@ -39,7 +39,7 @@ bool FirstChallenge::is_goal()
 {
     const double dist = calc_distance();
 
-    if(distance < goal_dist)
+    if(dist < goal_dist_)
         return true;
     else
         return false;
@@ -60,7 +60,10 @@ void FirstChallenge::run(float velocity, float omega)
 
     // 並進速度と旋回速度を指定
     cmd_vel_.cntl.linear.x = velocity;  // 並進速度
-    cntl.angular.z = omega;             // 旋回速度
+    cmd_vel_.cntl.angular.z = omega;             // 旋回速度
+
+    // cmd_velをpublish
+    cmd_vel_pub_->publish(cmd_vel_);
 }
 
 // 並進速度と旋回速度を計算
@@ -79,7 +82,7 @@ void FirstChallenge::set_cmd_vel()
 }
 
 //メイン文で実行する関数
-void CostMapCreator::process()
+void FirstChallenge::process()
 {
     // 制御周期を設定
     // roombaのHzは10Hz以上にはしない
@@ -97,7 +100,7 @@ void CostMapCreator::process()
         // コールバック関数を実行
         // rosのspinOnce
         // 制御周期内で1度だけコールバック関数を実行する
-        rclcpp::spin_some(node);
+        rclcpp::spin_some(Node);
         // 次の実行時間まで待つ
         loop_rate.sleep();
     }

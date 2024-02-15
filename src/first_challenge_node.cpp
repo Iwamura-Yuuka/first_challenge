@@ -3,7 +3,8 @@
 int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<FirstChallenge>());
+  FirstChallenge fchallenge;
+  fchallenge.process();
   rclcpp::shutdown();
 
   return 0;

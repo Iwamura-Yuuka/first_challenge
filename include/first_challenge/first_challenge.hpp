@@ -7,7 +7,7 @@
 #include <optional>    // has_value()用
 
 #include <nav_msgs/msg/odometry.hpp>
-#include <roomba_500driver_meiji/roombaCtrl.hpp>
+#include "roomba_500driver_meiji/msg/roombactrl.hpp"
 
 class FirstChallenge : public rclcpp::Node
 {
@@ -31,11 +31,11 @@ class FirstChallenge : public rclcpp::Node
         double goal_dist_ = 0.0;
         double velocity_ = 0.0;
         std::optional<nav_msgs::msg::Odometry> odom_;  // optional型で定義することによりodomをsubできたかの判定も同時に行う
-        roomba_500driver_meiji::RoombaCtrl cmd_vel_;
+        roomba_500driver_meiji::msg::RoombaCtrl cmd_vel_;
 
         // Pub & Sub
-        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;             // odom
-        rclcpp::Publisher<roomba_500driver_meiji::RoombaCtrl>::SharedPtr cmd_vel_pub_;  // 制御入力
+        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;                  // odom
+        rclcpp::Publisher<roomba_500driver_meiji::msg::RoombaCtrl>::SharedPtr cmd_vel_pub_;  // 制御入力
 };
 
 

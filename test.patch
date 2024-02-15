@@ -1,0 +1,107 @@
+diff --git a/include/first_challenge/first_challenge.hpp b/include/first_challenge/first_challenge.hpp
+index 78a3579..a1437df 100644
+--- a/include/first_challenge/first_challenge.hpp
++++ b/include/first_challenge/first_challenge.hpp
+@@ -15,7 +15,6 @@ class FirstChallenge : public rclcpp::Node
+         FirstChallenge();
+         void process();
+ 
+-    private:
+         // コールバック関数
+         void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
+ 
+@@ -39,4 +38,4 @@ class FirstChallenge : public rclcpp::Node
+ };
+ 
+ 
+-#endif  // FIRST_CHALLENGE_HPP
+\ No newline at end of file
++#endif  // FIRST_CHALLENGE_HPP
+diff --git a/src/first_challenge.cpp b/src/first_challenge.cpp
+index 663ace0..e33bcc5 100644
+--- a/src/first_challenge.cpp
++++ b/src/first_challenge.cpp
+@@ -84,26 +84,26 @@ void FirstChallenge::set_cmd_vel()
+ }
+ 
+ //メイン文で実行する関数
+-void FirstChallenge::process()
+-{
+-    // 制御周期を設定
+-    // roombaのHzは10Hz以上にはしない
+-    rclcpp::Rate loop_rate(hz_);
++// void FirstChallenge::process()
++// {
++//     // 制御周期を設定
++//     // roombaのHzは10Hz以上にはしない
++//     rclcpp::Rate loop_rate(hz_);
+ 
+-    // rclcpp::ok()によりCtrl+C押すまでプロセスを継続する
+-    while(rclcpp::ok())
+-    {
+-        // センサ情報を取得してから制御を開始
+-        if(can_move())
+-        {
+-            set_cmd_vel();
+-        }
++//     // rclcpp::ok()によりCtrl+C押すまでプロセスを継続する
++//     while(rclcpp::ok())
++//     {
++//         // センサ情報を取得してから制御を開始
++//         if(can_move())
++//         {
++//             set_cmd_vel();
++//         }
+ 
+-        // コールバック関数を実行
+-        // rosのspinOnce
+-        // 制御周期内で1度だけコールバック関数を実行する
+-        rclcpp::spin_some(std::make_shared<FirstChallenge>());
+-        // 次の実行時間まで待つ
+-        loop_rate.sleep();
+-    }
+-}
+\ No newline at end of file
++//         // コールバック関数を実行
++//         // rosのspinOnce
++//         // 制御周期内で1度だけコールバック関数を実行する
++//         rclcpp::spin_some(std::make_shared<FirstChallenge>());
++//         // 次の実行時間まで待つ
++//         loop_rate.sleep();
++//     }
++// }
+diff --git a/src/first_challenge_node.cpp b/src/first_challenge_node.cpp
+index ef22b45..e59c61a 100644
+--- a/src/first_challenge_node.cpp
++++ b/src/first_challenge_node.cpp
+@@ -3,9 +3,26 @@
+ int main(int argc, char *argv[])
+ {
+   rclcpp::init(argc, argv);
+-  FirstChallenge fchallenge;
+-  fchallenge.process();
++  std::shared_ptr<FirstChallenge> fchallenge = std::make_shared<FirstChallenge>();
++  rclcpp::Rate loop_rate(fchallenge->hz_);
++
++  // rclcpp::ok()によりCtrl+C押すまでプロセスを継続する
++  while(rclcpp::ok())
++  {
++      // センサ情報を取得してから制御を開始
++      if(fchallenge->can_move())
++      {
++          fchallenge->set_cmd_vel();
++      }
++
++      // コールバック関数を実行
++      // rosのspinOnce
++      // 制御周期内で1度だけコールバック関数を実行する
++      rclcpp::spin_some(fchallenge);
++      // 次の実行時間まで待つ
++      loop_rate.sleep();
++  }
+   rclcpp::shutdown();
+ 
+   return 0;
+-}
+\ No newline at end of file
++}

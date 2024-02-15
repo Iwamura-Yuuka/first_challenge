@@ -10,11 +10,11 @@ FirstChallenge::FirstChallenge() : Node("first_challenge")
     // <subscriber名> = this->create_subscription<<msg型>>("<topic名>", rclcpp::QoS(<確保するtopicサイズ>).reliable(), std::bind(&<class名>::<コールバック関数名>, this, std::placeholders::_<何番目の引数か>));
     // std::bindを使ってsubするコールバック関数，std::placeholdersを使ってその関数内での引数を指定する
     // std::placeholdersで指定する引数は大体1番目のもの（コールバック関数の引数が1つであるため）
-    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/roomba/odometry", rclcpp::QoS(1).reliable(), std::bind(&FirstChallenge::odometry_callback, this, std::placeholders::_1));
+    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/odom", rclcpp::QoS(1).reliable(), std::bind(&FirstChallenge::odometry_callback, this, std::placeholders::_1));
 
     // publisher
     // <publisher名> = this->create_publisher<<msg型>>("<topic名>", rclcpp::QoS(<確保するtopicサイズ>).reliable());
-    cmd_vel_pub_ = this->create_publisher<roomba_500driver_meiji::msg::RoombaCtrl>("/roomba/cmd_vel", rclcpp::QoS(1).reliable());
+    cmd_vel_pub_ = this->create_publisher<roomba_500driver_meiji::msg::RoombaCtrl>("/roomba/control", rclcpp::QoS(1).reliable());
 }
 
 // odomのコールバック関数
@@ -80,30 +80,5 @@ void FirstChallenge::set_cmd_vel()
     {
         // 停止
         run(0.0, 0.0);
-    }
-}
-
-//メイン文で実行する関数
-void FirstChallenge::process()
-{
-    // 制御周期を設定
-    // roombaのHzは10Hz以上にはしない
-    rclcpp::Rate loop_rate(hz_);
-
-    // rclcpp::ok()によりCtrl+C押すまでプロセスを継続する
-    while(rclcpp::ok())
-    {
-        // センサ情報を取得してから制御を開始
-        if(can_move())
-        {
-            set_cmd_vel();
-        }
-
-        // コールバック関数を実行
-        // rosのspinOnce
-        // 制御周期内で1度だけコールバック関数を実行する
-        rclcpp::spin_some(std::make_shared<FirstChallenge>());
-        // 次の実行時間まで待つ
-        loop_rate.sleep();
     }
 }

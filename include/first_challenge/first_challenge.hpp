@@ -15,7 +15,6 @@ class FirstChallenge : public rclcpp::Node
         FirstChallenge();
         void process();
 
-    private:
         // コールバック関数
         void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
 

@@ -14,7 +14,7 @@ FirstChallenge::FirstChallenge() : Node("first_challenge")
 
     // publisher
     // <publisher名> = this->create_publisher<<msg型>>("<topic名>", rclcpp::QoS(<確保するtopicサイズ>).reliable());
-    cmd_vel_pub_ = this->create_publisher<roomba_500driver_meiji::RoombaCtrl>("/roomba/cmd_vel", rclcpp::QoS(1).reliable());
+    cmd_vel_pub_ = this->create_publisher<roomba_500driver_meiji::msg::RoombaCtrl>("/roomba/cmd_vel", rclcpp::QoS(1).reliable());
 }
 
 // odomのコールバック関数
@@ -62,7 +62,7 @@ void FirstChallenge::run(float velocity, float omega)
 
     // 並進速度と旋回速度を指定
     cmd_vel_.cntl.linear.x = velocity;  // 並進速度
-    cmd_vel_.cntl.angular.z = omega;             // 旋回速度
+    cmd_vel_.cntl.angular.z = omega;    // 旋回速度
 
     // cmd_velをpublish
     cmd_vel_pub_->publish(cmd_vel_);
@@ -102,7 +102,7 @@ void FirstChallenge::process()
         // コールバック関数を実行
         // rosのspinOnce
         // 制御周期内で1度だけコールバック関数を実行する
-        rclcpp::spin_some(Node);
+        rclcpp::spin_some(std::make_shared<FirstChallenge>());
         // 次の実行時間まで待つ
         loop_rate.sleep();
     }

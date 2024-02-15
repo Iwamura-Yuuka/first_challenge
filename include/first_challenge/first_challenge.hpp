@@ -7,7 +7,7 @@
 #include <optional>    // has_value()用
 
 #include <nav_msgs/msg/odometry.hpp>
-#include "roomba_500driver_meiji/msg/roombactrl.hpp"
+#include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"
 
 class FirstChallenge : public rclcpp::Node
 {

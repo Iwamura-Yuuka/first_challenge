@@ -1,4 +1,3 @@
-#include <rclcpp/rclcpp.hpp>
 #include "first_challenge/first_challenge.hpp"
 
 int main(int argc, char *argv[])

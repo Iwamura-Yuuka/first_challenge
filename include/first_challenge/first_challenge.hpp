@@ -31,7 +31,7 @@ class FirstChallenge : public rclcpp::Node
         // 変数
         int hz_ = 10;             // 制御周期
         double goal_dist_ = 0.0;  // ゴールまでの距離
-        double velocity_ = 0.0;   // 
+        double velocity_ = 0.0;   // 直進時の並進速度
         std::optional<nav_msgs::msg::Odometry> odom_;  // optional型で定義することによりodomをsubできたかの判定も同時に行う
         roomba_500driver_meiji::msg::RoombaCtrl cmd_vel_;
 
@@ -40,7 +40,7 @@ class FirstChallenge : public rclcpp::Node
         // rclcpp::Subscription<msg型>::SharedPtr subscriber名;
         /*ここに追記*/ odom_sub_;                  // odom
         // publisherはroomba_500driver_meiji::msg::RoombaCtrl型のトピックをpublish
-        // rclcpp::Publisher<roomba_500driver_meiji::msg::RoombaCtrl>::SharedPtr publisher名;
+        // rclcpp::Publisher<msg型>::SharedPtr publisher名;
         /*ここに追記*/ cmd_vel_pub_;  // 制御入力
 };
 

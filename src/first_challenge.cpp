@@ -4,8 +4,9 @@
 FirstChallenge::FirstChallenge() : Node("first_challenge")
 {
     // global変数を定義
+    hz_ = this->declare_parameter<int>("hz", 10);  // hz_のデフォルト値を10に設定
+    // hz_の場合を参考にgoal_dist_とvelocity_について書く
     // デフォルト値は以下のようにする
-    // hz_        : 10
     // goal_dist_ : 1.0
     // velocity_  : 0.1
     // ここに書く
@@ -22,9 +23,10 @@ FirstChallenge::FirstChallenge() : Node("first_challenge")
 }
 
 // odomのコールバック関数
-void FirstChallenge::odometry_callback(/*引数を指定*/)
+void FirstChallenge::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
-    // ここに書く
+    // msgを取得
+    odom_ = *msg;
 }
 
 // センサ情報（今回はodom）を取得できているかの確認用
@@ -63,7 +65,7 @@ void FirstChallenge::run(float velocity, float omega)
     // 並進速度を指定
     // ここに書く
     // 旋回速度を指定
-    // ここに書く
+    cmd_vel_.cntl.angular.z = omega;
 
     // cmd_velをpublish
     // <publisher名>->publish(<変数名>);

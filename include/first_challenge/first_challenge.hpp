@@ -1,13 +1,14 @@
 #ifndef FIRST_CHALLENGE_HPP
 #define FIRST_CHALLENGE_HPP
 
-#include <rclcpp/rclcpp.hpp>
-#include <functional>  // bind & placeholders用
-#include <memory>      // SharedPtr用
-#include <optional>    // has_value()用
-
-#include <nav_msgs/msg/odometry.hpp>
-#include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"
+// 以下に示すライブラリ，ヘッダファイルをインクルード
+// rclcpp/rclcpp.hpp
+// functional
+// memory
+// optional
+// nav_msgs/msg/odometry.hpp
+// roomba_500driver_meiji/msg/roomba_ctrl.hpp
+// ここに書く
 
 class FirstChallenge : public rclcpp::Node
 {
@@ -16,7 +17,8 @@ class FirstChallenge : public rclcpp::Node
         void process();
 
         // コールバック関数
-        void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
+        // nav_msgs::msg::Odometry型のmsgをコールバック
+        void odometry_callback(/*引数を指定*/);
 
         // 関数
         bool can_move();                        // センサ情報（今回はodom）を取得できているかの確認用
@@ -29,12 +31,15 @@ class FirstChallenge : public rclcpp::Node
         int hz_ = 10;
         double goal_dist_ = 0.0;
         double velocity_ = 0.0;
-        std::optional<nav_msgs::msg::Odometry> odom_;  // optional型で定義することによりodomをsubできたかの判定も同時に行う
+        // odom_をoptional型で定義
+        /*ここに追記*/<nav_msgs::msg::Odometry> odom_;  // optional型で定義することによりodomをsubできたかの判定も同時に行う
         roomba_500driver_meiji::msg::RoombaCtrl cmd_vel_;
 
         // Pub & Sub
-        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;                  // odom
-        rclcpp::Publisher<roomba_500driver_meiji::msg::RoombaCtrl>::SharedPtr cmd_vel_pub_;  // 制御入力
+        // subscriberはnav_msgs::msg::Odometry型のトピックをsubscribe
+        // publisherはroomba_500driver_meiji::msg::RoombaCtrl型のトピックをpublish
+        /*ここに追記*/ odom_sub_;                  // odom
+        /*ここに追記*/ cmd_vel_pub_;  // 制御入力
 };
 
 

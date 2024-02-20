@@ -1,6 +1,6 @@
 #include "first_challenge/first_challenge.hpp"
 
-FirstChallenge::FirstChallenge() : Node("first_challenge")
+FirstChallenge::FirstChallenge() : Node("first_challenge_iwamura")
 {
     hz_ = this->declare_parameter<int>("hz", 10);
     goal_dist_ = this->declare_parameter<double>("goal_dist", 1.0);

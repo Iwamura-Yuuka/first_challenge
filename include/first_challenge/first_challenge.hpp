@@ -7,7 +7,7 @@
 #include <optional>    // has_value()用
 
 #include <nav_msgs/msg/odometry.hpp>
-#include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"
+#include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"  // 自作msgはインクルードの仕方に注意
 
 class FirstChallenge : public rclcpp::Node
 {
@@ -26,9 +26,9 @@ class FirstChallenge : public rclcpp::Node
         void set_cmd_vel();                     // 並進速度と旋回速度を計算
 
         // 変数
-        int hz_ = 10;
-        double goal_dist_ = 0.0;
-        double velocity_ = 0.0;
+        int hz_ = 10;             // 制御周期
+        double goal_dist_ = 0.0;  // ゴールまでの距離
+        double velocity_ = 0.0;   // 直進時の並進速度
         std::optional<nav_msgs::msg::Odometry> odom_;  // optional型で定義することによりodomをsubできたかの判定も同時に行う
         roomba_500driver_meiji::msg::RoombaCtrl cmd_vel_;
 

@@ -3,7 +3,10 @@
 int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
+  // FirstChallengeクラスをインスタンス化
+  // ポインタを使う
   std::shared_ptr<FirstChallenge> fchallenge = std::make_shared<FirstChallenge>();
+  // 制御周期を定義
   rclcpp::Rate loop_rate(fchallenge->hz_);
 
   // rclcpp::ok()によりCtrl+C押すまでプロセスを継続する
